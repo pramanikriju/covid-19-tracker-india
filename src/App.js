@@ -61,7 +61,6 @@ function App() {
         if (response.status === 200) {
           const html = response.data;
           const $ = cheerio.load(html);
-          console.log(STATES_CODES);
           let devtoList = [];
           $(".site-stats-count > ul > li").each(function(i, elem) {
             devtoList.push(
@@ -81,18 +80,15 @@ function App() {
           //let stateData = [];
           //console.log($);
 
-          $("#state-data > div > div > div > div > table > tbody > tr").each(
-            (index, element) => {
-              if (index === 0) return true;
-              const tds = $(element).find("td");
-              const state = $(tds[1]).text();
-              const value = $(tds[2]).text();
-              //console.log(state);
-              const id = STATES_CODES[state];
-              const tableRow = { id, state, value };
-              stateData.push(tableRow);
-            }
-          );
+          $("table > tbody > tr").each((index, element) => {
+            if (index === 0) return true;
+            const tds = $(element).find("td");
+            const state = $(tds[1]).text();
+            const value = $(tds[2]).text();
+            const id = STATES_CODES[state];
+            const tableRow = { id, state, value };
+            stateData.push(tableRow);
+          });
           stateData.pop();
           stateData.pop();
           setStateData(stateData);
