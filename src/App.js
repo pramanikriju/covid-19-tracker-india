@@ -22,6 +22,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import LanguageIcon from "@material-ui/icons/Language";
+import Map from "./Map";
 
 import Link from "@material-ui/core/Link";
 
@@ -42,6 +43,7 @@ const darkTheme = createMuiTheme({
     type: "light"
   }
 });
+const STATES_CODES = require("./IndianStates.json");
 
 function App() {
   const classes = useStyles();
@@ -49,6 +51,7 @@ function App() {
   const [cured, setCured] = useState(false);
   const [deaths, setDeaths] = useState(false);
   const [time, setTime] = useState(false);
+  const [stateData, setStateData] = useState([]);
 
   useEffect(() => {
     let axios = require("axios");
@@ -58,7 +61,7 @@ function App() {
         if (response.status === 200) {
           const html = response.data;
           const $ = cheerio.load(html);
-          //console.log(html);
+          console.log(STATES_CODES);
           let devtoList = [];
           $(".site-stats-count > ul > li").each(function(i, elem) {
             devtoList.push(
@@ -73,11 +76,32 @@ function App() {
           setCured(parseInt(devtoList[1]) + parseInt(devtoList[3]));
           setDeaths(devtoList[2]);
           setTime("Updated on :" + time.substring(7, 50));
+
+          //Get Statewise Data
+          //let stateData = [];
+          //console.log($);
+
+          $("#state-data > div > div > div > div > table > tbody > tr").each(
+            (index, element) => {
+              if (index === 0) return true;
+              const tds = $(element).find("td");
+              const state = $(tds[1]).text();
+              const value = $(tds[2]).text();
+              //console.log(state);
+              const id = STATES_CODES[state];
+              const tableRow = { id, state, value };
+              stateData.push(tableRow);
+            }
+          );
+          stateData.pop();
+          stateData.pop();
+          setStateData(stateData);
+          console.log(stateData);
         }
       },
       error => console.log(error)
     );
-  }, [active, cured, deaths]);
+  }, [stateData]);
 
   return (
     <div>
@@ -179,6 +203,9 @@ function App() {
                   </Card>
                 </Grid>
               </Grid>
+              <Box mt={3} bgcolor="background.paper">
+                <Map data={stateData} />
+              </Box>
               <Box mt={3} bgcolor="background.paper">
                 <Grid
                   justify="space-between" // Add it here :)
