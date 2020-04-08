@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import logo from "./logo.svg";
+import React, { useState, useEffect } from "react";
+//import logo from "./logo.svg";
 import "./App.css";
 import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,7 +16,6 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import Odometer from "react-odometerjs";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import GitHubIcon from "@material-ui/icons/GitHub";
@@ -70,7 +69,6 @@ function App() {
             );
           });
           let time = $(".status-update h2 span").text();
-          console.log(time);
           setActive(devtoList[0]);
           setCured(parseInt(devtoList[1]) + parseInt(devtoList[3]));
           setDeaths(devtoList[2]);
@@ -150,7 +148,7 @@ function App() {
                         //color="textSecondary"
                         gutterBottom
                       >
-                        Cured / Discharged/ Migrated
+                        Cured / Discharged / Migrated
                       </Typography>
                       <Typography variant="h3" gutterBottom>
                         {cured ? cured : <CircularProgress color="secondary" />}
@@ -185,7 +183,7 @@ function App() {
                 <Grid
                   justify="space-between" // Add it here :)
                   container
-                  spacing={24}
+                  spacing={5}
                 >
                   <Grid item>
                     <Typography mt={20} variant="subtitle2" gutterBottom>
