@@ -2,6 +2,7 @@
   "name": "wb-covid-tracker",
   "version": "0.1.0",
   "private": true,
+  "author": "Riju Pramanik",
   "dependencies": {
     "@material-ui/core": "^4.9.9",
     "@material-ui/icons": "^4.9.1",

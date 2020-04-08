@@ -1,6 +1,6 @@
 {
-  "short_name": "Covid 19 Tracker India",
-  "name": "Create React App Sample",
+  "short_name": "covid-tracker-india",
+  "name": "Covid 19 Tracker India",
   "icons": [
     {
       "src": "favicon.ico",
