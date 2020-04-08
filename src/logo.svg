@@ -1,15 +1,1 @@
-<svg width="1835" height="1404" viewBox="0 0 1835 1404" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="813.214" y1="16.1999" x2="8.21377" y2="1207.2" stroke="black" stroke-width="15"/>
-<line x1="813.263" y1="9.87354" x2="1547.26" y2="1123.87" stroke="black" stroke-width="15"/>
-<line x1="6" y1="1206.5" x2="141" y2="1206.5" stroke="black" stroke-width="15"/>
-<rect y="1203" width="8" height="11" fill="black"/>
-<path d="M815.5 0L828.057 18H802.943L815.5 0Z" fill="black"/>
-<line x1="864.218" y1="310.194" x2="136.097" y2="1389.79" stroke="black" stroke-width="15"/>
-<line x1="1736.01" y1="1393.5" x2="130.015" y2="1396.48" stroke="black" stroke-width="15"/>
-<line x1="366.015" y1="1198.5" x2="1830.01" y2="1201.48" stroke="black" stroke-width="15"/>
-<line x1="968.786" y1="123.801" x2="1043.79" y2="12.8011" stroke="black" stroke-width="15"/>
-<path d="M1041 0L1047.06 12.75H1034.94L1041 0Z" fill="black"/>
-<line x1="1828.75" y1="1205.14" x2="1039.98" y2="14.9879" stroke="black" stroke-width="15"/>
-<rect x="1826" y="1201" width="9" height="8" fill="black"/>
-<rect x="130" y="1386" width="7" height="3" fill="black"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1835" height="1404" fill="none" viewBox="0 0 1835 1404"><line x1="813.214" x2="8.214" y1="16.2" y2="1207.2" stroke="#000" stroke-width="15"/><line x1="813.263" x2="1547.26" y1="9.874" y2="1123.87" stroke="#000" stroke-width="15"/><line x1="6" x2="141" y1="1206.5" y2="1206.5" stroke="#000" stroke-width="15"/><rect width="8" height="11" y="1203" fill="#000"/><path fill="#000" d="M815.5 0L828.057 18H802.943L815.5 0Z"/><line x1="864.218" x2="136.097" y1="310.194" y2="1389.79" stroke="#000" stroke-width="15"/><line x1="1736.01" x2="130.015" y1="1393.5" y2="1396.48" stroke="#000" stroke-width="15"/><line x1="366.015" x2="1830.01" y1="1198.5" y2="1201.48" stroke="#000" stroke-width="15"/><line x1="968.786" x2="1043.79" y1="123.801" y2="12.801" stroke="#000" stroke-width="15"/><path fill="#000" d="M1041 0L1047.06 12.75H1034.94L1041 0Z"/><line x1="1828.75" x2="1039.98" y1="1205.14" y2="14.988" stroke="#000" stroke-width="15"/><rect width="9" height="8" x="1826" y="1201" fill="#000"/><rect width="7" height="3" x="130" y="1386" fill="#000"/></svg>
