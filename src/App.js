@@ -92,7 +92,7 @@ function App() {
       },
       (error) => console.log(error)
     );
-  }, []);
+  }, [stateData]);
 
   return (
     <div>
