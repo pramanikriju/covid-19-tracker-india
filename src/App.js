@@ -26,22 +26,22 @@ import Map from "./Map";
 
 import Link from "@material-ui/core/Link";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 
 const darkTheme = createMuiTheme({
   palette: {
-    type: "light"
-  }
+    type: "light",
+  },
 });
 const STATES_CODES = require("./IndianStates.json");
 
@@ -57,18 +57,13 @@ function App() {
     let axios = require("axios");
     let cheerio = require("cheerio");
     axios.get("https://www.mohfw.gov.in/").then(
-      response => {
+      (response) => {
         if (response.status === 200) {
           const html = response.data;
           const $ = cheerio.load(html);
           let devtoList = [];
-          $(".site-stats-count > ul > li").each(function(i, elem) {
-            devtoList.push(
-              $(this)
-                .find("strong")
-                .text()
-                .trim()
-            );
+          $(".site-stats-count > ul > li").each(function (i, elem) {
+            devtoList.push($(this).find("strong").text().trim());
           });
           let time = $(".status-update h2 span").text();
           setActive(devtoList[0]);
@@ -77,7 +72,7 @@ function App() {
           setTime("Updated on :" + time.substring(7, 50));
 
           //Get Statewise Data
-          //let stateData = [];
+          let stateDataWeb = [];
           //console.log($);
 
           $("table > tbody > tr").each((index, element) => {
@@ -87,17 +82,17 @@ function App() {
             const value = $(tds[2]).text();
             const id = STATES_CODES[state];
             const tableRow = { id, state, value };
-            stateData.push(tableRow);
+            stateDataWeb.push(tableRow);
           });
           stateData.pop();
           stateData.pop();
-          setStateData(stateData);
+          setStateData(stateDataWeb);
           console.log(stateData);
         }
       },
-      error => console.log(error)
+      (error) => console.log(error)
     );
-  }, [stateData]);
+  }, []);
 
   return (
     <div>
@@ -200,7 +195,11 @@ function App() {
                 </Grid>
               </Grid>
               <Box mt={3} bgcolor="background.paper">
-                <Map data={stateData} />
+                {stateData.length !== 0 ? (
+                  <Map data={stateData} />
+                ) : (
+                  <CircularProgress />
+                )}
               </Box>
               <Box mt={3} bgcolor="background.paper">
                 <Grid

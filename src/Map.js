@@ -14,32 +14,32 @@ const COLOR_RANGE = [
   "#e2492d",
   "#be3d26",
   "#9a311f",
-  "#782618"
+  "#782618",
 ];
 
 const PROJECTION_CONFIG = {
   scale: 900,
-  center: [78.9629, 22.5937]
+  center: [78.9629, 22.5937],
 };
 const geographyStyle = {
   default: {
-    outline: "none"
+    outline: "none",
   },
   hover: {
     fill: "#ccc",
     transition: "all 250ms",
-    outline: "none"
+    outline: "none",
   },
   pressed: {
-    outline: "none"
-  }
+    outline: "none",
+  },
 };
 
-function Map(props) {
+function Map({ data }) {
   const [tooltipContent, setTooltipContent] = useState("");
 
   const colorScale = scaleQuantile()
-    .domain(props.data.map(d => d.value))
+    .domain(data.map((d) => d.value))
     .range(COLOR_RANGE);
 
   const onMouseEnter = (geo, current = { value: "NA" }) => {
@@ -51,6 +51,8 @@ function Map(props) {
   const onMouseLeave = () => {
     setTooltipContent("");
   };
+
+  console.log("render count", data.length);
   return (
     <div>
       <ReactTooltip>{tooltipContent}</ReactTooltip>
@@ -64,8 +66,8 @@ function Map(props) {
       >
         <Geographies geography={INDIA_TOPO_JSON}>
           {({ geographies }) =>
-            geographies.map(geo => {
-              const current = props.data.find(s => {
+            geographies.map((geo) => {
+              const current = data.find((s) => {
                 return s.id === geo.id;
               });
               return (
