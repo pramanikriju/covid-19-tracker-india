@@ -2,6 +2,7 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import React, { useState } from "react";
 import { scaleQuantile } from "d3-scale";
 import ReactTooltip from "react-tooltip";
+import LinearGradient from "./LinearGradient";
 
 const INDIA_TOPO_JSON = require("./india.topo.json");
 const DEFAULT_COLOR = "#EEE";
@@ -38,6 +39,19 @@ const geographyStyle = {
 function Map({ data }) {
   const [tooltipContent, setTooltipContent] = useState("");
 
+  const gradientData = {
+    fromColor: COLOR_RANGE[0],
+    toColor: COLOR_RANGE[COLOR_RANGE.length - 1],
+    min: 0,
+    max: Math.max.apply(
+      Math,
+      data.map(function (o) {
+        return o.value;
+      })
+    ),
+  };
+
+  console.log("dta", gradientData.max);
   const colorScale = scaleQuantile()
     .domain(data.map((d) => d.value))
     .range(COLOR_RANGE);
@@ -52,7 +66,6 @@ function Map({ data }) {
     setTooltipContent("");
   };
 
-  console.log("render count", data.length);
   return (
     <div>
       <ReactTooltip>{tooltipContent}</ReactTooltip>
@@ -84,6 +97,7 @@ function Map({ data }) {
           }
         </Geographies>
       </ComposableMap>
+      <LinearGradient data={gradientData} />
     </div>
   );
 }

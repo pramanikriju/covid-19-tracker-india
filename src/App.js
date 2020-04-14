@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 //import logo from "./logo.svg";
 import "./App.css";
 import { Container } from "@material-ui/core";
@@ -23,7 +23,6 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import LanguageIcon from "@material-ui/icons/Language";
 import Map from "./Map";
-
 import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  link: {
+    color: theme.secondaryColor,
   },
 }));
 
@@ -53,7 +55,7 @@ function App() {
   const [time, setTime] = useState(false);
   const [stateData, setStateData] = useState([]);
 
-  useEffect(() => {
+  const getApiData = useCallback((query) => {
     let axios = require("axios");
     let cheerio = require("cheerio");
     axios.get("https://www.mohfw.gov.in/").then(
@@ -76,7 +78,6 @@ function App() {
           //console.log($);
 
           $("table > tbody > tr").each((index, element) => {
-            if (index === 0) return true;
             const tds = $(element).find("td");
             const state = $(tds[1]).text();
             const value = $(tds[2]).text();
@@ -87,12 +88,16 @@ function App() {
           stateData.pop();
           stateData.pop();
           setStateData(stateDataWeb);
-          console.log(stateData);
+          //console.log(stateData);
         }
       },
       (error) => console.log(error)
     );
-  }, [stateData]);
+  }, []);
+
+  useEffect(() => {
+    getApiData();
+  }, [getApiData]);
 
   return (
     <div>
@@ -110,24 +115,50 @@ function App() {
             COVID-19 Tracker India
           </Typography>
           <Box mx={1} display={{ xs: "none", md: "block" }}>
-            <Link href="https://github.com/pramanikriju/">
-              <GitHubIcon style={{ color: "white" }} />
-            </Link>
+            <IconButton className={classes.margin}>
+              <Link
+                target="_blank"
+                rel="noopener"
+                href="https://github.com/pramanikriju/"
+              >
+                <GitHubIcon style={{ color: "white" }} />
+              </Link>
+            </IconButton>
           </Box>
           <Box mx={1} display={{ xs: "none", md: "block" }}>
-            <Link href="https://twitter.com/riju_venate">
-              <TwitterIcon style={{ color: "white" }} />
-            </Link>
+            <IconButton className={classes.margin}>
+              <Link
+                className={classes.link}
+                target="_blank"
+                rel="noopener"
+                href="https://twitter.com/riju_venate"
+              >
+                <TwitterIcon style={{ color: "white" }} />
+              </Link>
+            </IconButton>
           </Box>
           <Box mx={1} display={{ xs: "none", md: "block" }}>
-            <Link href="https://www.facebook.com/riju.venation/">
-              <FacebookIcon style={{ color: "white" }} />
-            </Link>
+            <IconButton className={classes.margin}>
+              <Link
+                target="_blank"
+                rel="noopener"
+                href="https://www.facebook.com/riju.venation/"
+              >
+                <FacebookIcon style={{ color: "white" }} />
+              </Link>
+            </IconButton>
           </Box>
           <Box mx={1} display={{ xs: "none", md: "block" }}>
-            <Link href="https://riju.co" mx={15}>
-              <LanguageIcon style={{ color: "white" }} />
-            </Link>
+            <IconButton className={classes.margin}>
+              <Link
+                target="_blank"
+                rel="noopener"
+                href="https://riju.co"
+                mx={15}
+              >
+                <LanguageIcon style={{ color: "white" }} />
+              </Link>
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
@@ -146,13 +177,12 @@ function App() {
                       >
                         Confirmed Cases
                       </Typography>
-                      <Typography variant="h3" gutterBottom>
+                      <Typography variant="h3" gutterBottom style={{ flex: 1 }}>
                         {active ? active : <CircularProgress />}
+                        <span align="right"></span>
                       </Typography>
                     </CardContent>
-                    <CardActions>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
+                    <CardActions>Confirmed as of today</CardActions>
                   </Card>
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -169,9 +199,7 @@ function App() {
                         {cured ? cured : <CircularProgress color="secondary" />}
                       </Typography>
                     </CardContent>
-                    <CardActions>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
+                    <CardActions>Cured and discharged</CardActions>
                   </Card>
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -188,9 +216,7 @@ function App() {
                         {deaths ? deaths : <CircularProgress color="inherit" />}
                       </Typography>
                     </CardContent>
-                    <CardActions>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
+                    <CardActions>Fatalities so far</CardActions>
                   </Card>
                 </Grid>
               </Grid>
@@ -212,12 +238,23 @@ function App() {
                       {time ? time : "NA"}
                     </Typography>
                     <Typography mt={20} variant="subtitle2" gutterBottom>
-                      Made by <Link href="https://riju.co">Riju Pramanik</Link>
+                      Made by{" "}
+                      <Link
+                        target="_blank"
+                        rel="noopener"
+                        href="https://riju.co"
+                      >
+                        Riju Pramanik
+                      </Link>
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Box mx={1}>
-                      <Link href="https://www.mohfw.gov.in/">
+                      <Link
+                        target="_blank"
+                        rel="noopener"
+                        href="https://www.mohfw.gov.in/"
+                      >
                         <Button variant="contained" color="primary">
                           Source : MoHFW
                         </Button>
