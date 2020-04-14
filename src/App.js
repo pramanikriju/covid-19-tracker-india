@@ -100,7 +100,7 @@ function App() {
   }, []);
 
   return (
-    <div style={{ overflowX: "hidden" }}>
+    <div>
       <AppBar position="static">
         <Toolbar>
           <IconButton
