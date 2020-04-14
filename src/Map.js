@@ -29,7 +29,7 @@ const PROJECTION_CONFIG = {
 };
 const geographyStyle = {
   default: {
-    outline: "#000",
+    outline: "#fff",
   },
   hover: {
     fill: "#ccc",
