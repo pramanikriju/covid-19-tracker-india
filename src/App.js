@@ -93,11 +93,11 @@ function App() {
       },
       (error) => console.log(error)
     );
-  });
+  }, []);
 
   useEffect(() => {
     getApiData();
-  }, [getApiData]);
+  }, []);
 
   return (
     <div>

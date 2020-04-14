@@ -51,7 +51,6 @@ function Map({ data }) {
     ),
   };
 
-  console.log("dta", gradientData.max);
   const colorScale = scaleQuantile()
     .domain(data.map((d) => d.value))
     .range(COLOR_RANGE);
