@@ -93,7 +93,7 @@ function App() {
       },
       (error) => console.log(error)
     );
-  }, []);
+  });
 
   useEffect(() => {
     getApiData();
