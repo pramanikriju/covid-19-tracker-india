@@ -1,4 +1,9 @@
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  ZoomableGroup,
+} from "react-simple-maps";
 import React, { useState } from "react";
 import { scaleQuantile } from "d3-scale";
 import ReactTooltip from "react-tooltip";
@@ -38,6 +43,23 @@ const geographyStyle = {
 
 function Map({ data }) {
   const [tooltipContent, setTooltipContent] = useState("");
+  const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
+
+  function handleZoomIn(e) {
+    e.preventDefault();
+    if (position.zoom >= 4) return;
+    setPosition((pos) => ({ ...pos, zoom: pos.zoom * 2 }));
+  }
+
+  function handleZoomOut(e) {
+    e.preventDefault();
+    if (position.zoom <= 1) return;
+    setPosition((pos) => ({ ...pos, zoom: pos.zoom / 2 }));
+  }
+
+  function handleMoveEnd(position) {
+    setPosition(position);
+  }
 
   const gradientData = {
     fromColor: COLOR_RANGE[0],
@@ -76,25 +98,31 @@ function Map({ data }) {
         height={600}
         data-tip=""
       >
-        <Geographies geography={INDIA_TOPO_JSON}>
-          {({ geographies }) =>
-            geographies.map((geo) => {
-              const current = data.find((s) => {
-                return s.id === geo.id;
-              });
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  fill={current ? colorScale(current.value) : DEFAULT_COLOR}
-                  style={geographyStyle}
-                  onMouseEnter={onMouseEnter(geo, current)}
-                  onMouseLeave={onMouseLeave}
-                />
-              );
-            })
-          }
-        </Geographies>
+        <ZoomableGroup
+          zoom={position.zoom}
+          center={position.coordinates}
+          onMoveEnd={handleMoveEnd}
+        >
+          <Geographies geography={INDIA_TOPO_JSON}>
+            {({ geographies }) =>
+              geographies.map((geo) => {
+                const current = data.find((s) => {
+                  return s.id === geo.id;
+                });
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    fill={current ? colorScale(current.value) : DEFAULT_COLOR}
+                    style={geographyStyle}
+                    onMouseEnter={onMouseEnter(geo, current)}
+                    onMouseLeave={onMouseLeave}
+                  />
+                );
+              })
+            }
+          </Geographies>
+        </ZoomableGroup>
       </ComposableMap>
       <LinearGradient data={gradientData} />
     </div>
