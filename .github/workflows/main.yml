@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: "12.x"
       - run: npm install
-      - run: npm run build --if-present
+      - run: CI=false npm run build --if-present
       - name: Deploy to Firebase
         uses: lowply/deploy-firebase@v0.0.2
         env:
