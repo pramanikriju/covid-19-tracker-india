@@ -24,12 +24,12 @@ const COLOR_RANGE = [
 ];
 
 const PROJECTION_CONFIG = {
-  scale: 900,
+  scale: 1000,
   center: [78.9629, 22.5937],
 };
 const geographyStyle = {
   default: {
-    outline: "none",
+    outline: "#000",
   },
   hover: {
     fill: "#ccc",
