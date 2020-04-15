@@ -42,7 +42,12 @@ function Map({ data }) {
   const gradientData = {
     fromColor: COLOR_RANGE[0],
     toColor: COLOR_RANGE[COLOR_RANGE.length - 1],
-    min: 0,
+    min: Math.min.apply(
+      Math,
+      data.map(function (o) {
+        return o.value;
+      })
+    ),
     max: Math.max.apply(
       Math,
       data.map(function (o) {
