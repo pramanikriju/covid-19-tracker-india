@@ -57,43 +57,30 @@ function App() {
 
   const getApiData = useCallback((query) => {
     let axios = require("axios");
-    let cheerio = require("cheerio");
-    axios.get("https://www.mohfw.gov.in/").then(
-      (response) => {
-        if (response.status === 200) {
-          const html = response.data;
-          const $ = cheerio.load(html);
-          let devtoList = [];
-          $(".site-stats-count > ul > li").each(function (i, elem) {
-            devtoList.push($(this).find("strong").text().trim());
-          });
-          let time = $(".status-update h2 span").text();
-          setActive(devtoList[0]);
-          setCured(parseInt(devtoList[1]) + parseInt(devtoList[3]));
-          setDeaths(devtoList[2]);
-          setTime("Updated on :" + time.substring(7, 50));
 
-          //Get Statewise Data
-          let stateDataWeb = [];
-          //console.log($);
+    axios.get("https://www.mohfw.gov.in/data/datanew.json").then((resp) => {
+    const time = `As on: ${resp.headers['last-modified']}`;
+    const data = resp.data;
+    const baseData = data[data.length-1];
+    const {new_active,new_cured,new_death} = baseData;
+    setTime(time)
+    setActive(new_active);
+    setCured(new_cured);
+    setDeaths(new_death);
 
-          $("table > tbody > tr").each((index, element) => {
-            const tds = $(element).find("td");
-            const state = $(tds[1]).text();
-            const value = $(tds[2]).text();
-            const id = STATES_CODES[state];
-            const tableRow = { id, state, value };
-            stateDataWeb.push(tableRow);
-          });
-          stateData.pop();
-          stateData.pop();
-          setStateData(stateDataWeb);
-          //console.log(stateData);
-        }
-      },
-      (error) => console.log(error)
-    );
-  }, []);
+    const stateDataWeb = [];
+    data.forEach(s=>{
+      const state = s.state_name;
+      const value = s.new_active;
+      const id = STATES_CODES[state];
+      stateDataWeb.push({id, state, value})
+    })
+    setStateData(stateDataWeb);
+    })
+
+
+  },[])
+    
 
   useEffect(() => {
     getApiData();
