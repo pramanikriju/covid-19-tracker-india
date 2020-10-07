@@ -46,6 +46,8 @@ const darkTheme = createMuiTheme({
   },
 });
 const STATES_CODES = require("./IndianStates.json");
+const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
+const API_URL = "https://www.mohfw.gov.in/data/datanew.json";
 
 function App() {
   const classes = useStyles();
@@ -58,29 +60,26 @@ function App() {
   const getApiData = useCallback((query) => {
     let axios = require("axios");
 
-    axios.get("https://www.mohfw.gov.in/data/datanew.json").then((resp) => {
-    const time = `As on: ${resp.headers['last-modified']}`;
-    const data = resp.data;
-    const baseData = data[data.length-1];
-    const {new_active,new_cured,new_death} = baseData;
-    setTime(time)
-    setActive(new_active);
-    setCured(new_cured);
-    setDeaths(new_death);
+    axios.get(PROXY_URL + API_URL).then((resp) => {
+      const time = `As on: ${resp.headers["last-modified"]}`;
+      const data = resp.data;
+      const baseData = data[data.length - 1];
+      const { new_active, new_cured, new_death } = baseData;
+      setTime(time);
+      setActive(new_active);
+      setCured(new_cured);
+      setDeaths(new_death);
 
-    const stateDataWeb = [];
-    data.forEach(s=>{
-      const state = s.state_name;
-      const value = s.new_active;
-      const id = STATES_CODES[state];
-      stateDataWeb.push({id, state, value})
-    })
-    setStateData(stateDataWeb);
-    })
-
-
-  },[])
-    
+      const stateDataWeb = [];
+      data.forEach((s) => {
+        const state = s.state_name;
+        const value = s.new_active;
+        const id = STATES_CODES[state];
+        stateDataWeb.push({ id, state, value });
+      });
+      setStateData(stateDataWeb);
+    });
+  }, []);
 
   useEffect(() => {
     getApiData();
