@@ -60,7 +60,7 @@ function App() {
   const getApiData = useCallback((query) => {
     let axios = require("axios");
 
-    axios.get(PROXY_URL + API_URL).then((resp) => {
+    axios.get(API_URL).then((resp) => {
       const time = `As on: ${resp.headers["last-modified"]}`;
       const data = resp.data;
       const baseData = data[data.length - 1];
