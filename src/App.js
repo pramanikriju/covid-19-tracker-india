@@ -24,6 +24,7 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import LanguageIcon from "@material-ui/icons/Language";
 import Map from "./Map";
 import Link from "@material-ui/core/Link";
+import Data from "./datanew.json";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,27 +59,25 @@ function App() {
   const [stateData, setStateData] = useState([]);
 
   const getApiData = useCallback((query) => {
-    let axios = require("axios");
+    //let axios = require("axios");
 
-    axios.get(API_URL).then((resp) => {
-      const time = `As on: ${resp.headers["last-modified"]}`;
-      const data = resp.data;
-      const baseData = data[data.length - 1];
-      const { new_active, new_cured, new_death } = baseData;
-      setTime(time);
-      setActive(new_active);
-      setCured(new_cured);
-      setDeaths(new_death);
+    const time = `As on: ${new Date()}`;
+    const data = Data;
+    const baseData = data[data.length - 1];
+    const { new_active, new_cured, new_death } = baseData;
+    setTime(time);
+    setActive(new_active);
+    setCured(new_cured);
+    setDeaths(new_death);
 
-      const stateDataWeb = [];
-      data.forEach((s) => {
-        const state = s.state_name;
-        const value = s.new_active;
-        const id = STATES_CODES[state];
-        stateDataWeb.push({ id, state, value });
-      });
-      setStateData(stateDataWeb);
+    const stateDataWeb = [];
+    data.forEach((s) => {
+      const state = s.state_name;
+      const value = s.new_active;
+      const id = STATES_CODES[state];
+      stateDataWeb.push({ id, state, value });
     });
+    setStateData(stateDataWeb);
   }, []);
 
   useEffect(() => {
